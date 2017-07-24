@@ -1,0 +1,11 @@
+ipdb==0.9
+ipython==4.1
+pycodestyle==2.0.0
+pydocstyle==1.0.0
+pytest-cov==2.2
+pytest==2.8
+flake8==3.0.4
+flake8-builtins==0.2
+flake8-docstrings==1.0.2
+flake8-import-order==0.9
+flake8-quotes==0.8.1

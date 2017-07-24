@@ -1,0 +1,38 @@
+#%RAML 0.8
+title: API Specifications
+version: 0.0.1
+baseUri: https://app_name.theorchard.io
+/:
+  get:
+    description: Hello World with an optional GET param "name".
+    queryParameters:
+      name:
+        description: optional GET param "name".
+        type: string
+    responses:
+      200:
+        description: 200 OK
+        body:
+          text/html:
+            example: "Hello Bill!"
+/{username}:
+  get:
+    description: Hello World on /<username>.
+    responses:
+      200:
+        description: 200 OK
+        body:
+          text/html:
+            example: Hello Bill!
+/hello/:
+  get:
+    description: Check the health of the application.
+    responses:
+      200:
+        description: 200 OK
+        body:
+          application/json:
+            example: |
+              {
+                "status": "ok"
+              }

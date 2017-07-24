@@ -1,0 +1,12 @@
+branch-defaults:
+  master:
+    environment: ENV-app_name
+global:
+  application_name: app_name
+  default_ec2_keyname: orchard_admin
+  default_platform: null
+  default_region: null
+  profile: null
+  sc: git
+deploy:
+  artifact: app_name.zip
