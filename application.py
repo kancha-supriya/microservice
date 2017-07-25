@@ -2,9 +2,9 @@
 
 from raven.contrib import flask
 
-from app_name import api
-from app_name import config
-from app_name import handlers  # noqa
+from timed_release import api
+from timed_release import config
+from timed_release import handlers  # noqa
 
 
 if config.SENTRY:

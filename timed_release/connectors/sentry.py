@@ -7,7 +7,7 @@ https://docs.getsentry.com/hosted/clients/python/usage/
 
 import raven
 
-from app_name import config
+from timed_release import config
 
 
 def get_client():

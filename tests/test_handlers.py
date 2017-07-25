@@ -6,10 +6,10 @@ from unittest.mock import patch
 
 from oto import response
 
-from app_name import handlers
+from timed_release import handlers
 
 
-@patch('app_name.handlers.g')
+@patch('timed_release.handlers.g')
 def test_exception_handler(mock_g):
     """Verify exception_Handler returns 500 status code and json payload."""
     message = (

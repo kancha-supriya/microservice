@@ -5,10 +5,10 @@ dev:
 	python dev.py
 
 test:
-	py.test tests/ --cov app_name --cov-report term-missing
+	py.test tests/ --cov timed_release --cov-report term-missing
 
 lint:
-	flake8 app_name/ tests/
+	flake8 timed_release/ tests/
 
 pip_dev:
 	pip install -r requirements.txt

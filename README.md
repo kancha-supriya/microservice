@@ -50,8 +50,8 @@ are not necessarily available in production, such as the exception tracer.
 To run the tests, all you have to do is to run:
 
 ```bash
-(env) $ py.test tests/ --cov app_name --cov-report term-missing
-(env) $ flake8 app_name/ tests/
+(env) $ py.test tests/ --cov timed_release --cov-report term-missing
+(env) $ flake8 timed_release/ tests/
 ```
 
 or

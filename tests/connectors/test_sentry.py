@@ -4,11 +4,12 @@ from unittest.mock import patch
 
 from oto import response
 
-from app_name.connectors import sentry
+from timed_release.connectors import sentry
 
 
-@patch('app_name.connectors.sentry.raven.Client', return_value='sentry_client')
-@patch('app_name.connectors.sentry.config')
+@patch('timed_release.connectors.sentry.raven.Client',
+       return_value='sentry_client')
+@patch('timed_release.connectors.sentry.config')
 def test_sentry_enabled(mock_config, mock_raven_client):
     """Test sentry.sentry_client is setup when config.SENTRY is set."""
     mock_config.SENTRY = 'SENTRY'
@@ -19,7 +20,7 @@ def test_sentry_enabled(mock_config, mock_raven_client):
 
 
 @patch('raven.Client', return_value='sentry_client')
-@patch('app_name.connectors.sentry.config')
+@patch('timed_release.connectors.sentry.config')
 def test_sentry_disabled(mock_config, mock_raven_client):
     """Test sentry.sentry_client initialized with dsn of None."""
     mock_config.SENTRY = None
@@ -30,7 +31,7 @@ def test_sentry_disabled(mock_config, mock_raven_client):
     assert sentry_client == 'sentry_client'
 
 
-@patch('app_name.connectors.sentry.sentry_client')
+@patch('timed_release.connectors.sentry.sentry_client')
 def test_send_response_to_sentry(mock_sentry_client):
     """Test sending an error message to Sentry."""
     error_response = response.Response(

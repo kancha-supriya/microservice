@@ -8,7 +8,7 @@ from flask import Flask
 from owslogger import flask_logger
 from owsrequest import flask_request
 
-from app_name import config
+from timed_release import config
 
 
 app = Flask(config.SERVICE_NAME)

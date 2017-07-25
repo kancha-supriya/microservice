@@ -2,7 +2,7 @@
 
 import pytest
 
-from app_name.logic import hello
+from timed_release.logic import hello
 
 
 @pytest.mark.parametrize('name', [
