@@ -15,10 +15,10 @@ from timed_release import config
 from timed_release.connectors import sentry
 
 
-db_engine = create_engine(config.RDS_DB_URL, poolclass=config.POOL_CLASS)
-rds_db_session = sessionmaker(bind=db_engine)
+rds_db_engine = create_engine(config.RDS_DB_URL, poolclass=config.POOL_CLASS)
+rds_db_session = sessionmaker(bind=rds_db_engine)
 
-baseModel = declarative_base()
+base_model = declarative_base()
 
 
 @contextmanager
