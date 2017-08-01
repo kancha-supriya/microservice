@@ -42,7 +42,7 @@ RDS_DB_CONNECTION_PROPERTIES = {
 
 # Database config
 if ENVIRONMENT == TEST_ENVIRONMENT:
-    DB_URL = 'sqlite://'
+    RDS_DB_URL = 'sqlite://'
     POOL_CLASS = StaticPool
 else:
     RDS_DB_URL = (
