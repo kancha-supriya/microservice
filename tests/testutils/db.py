@@ -7,23 +7,23 @@ from functools import wraps
 import sys
 
 from timed_release import config
-from timed_release.connectors.mysql import base_model
-from timed_release.connectors.mysql import rds_db_engine
-from timed_release.connectors.mysql import rds_db_session
+from timed_release.connectors.db_connection import base_model
+from timed_release.connectors.db_connection import db_engine
+from timed_release.connectors.db_connection import db_session_maker
 
 
 def create_all_tables():
     """Create database table for all model classes."""
-    _exit_if_not_test_environment(rds_db_session())
+    _exit_if_not_test_environment(db_session_maker())
     # Creates table for all model where base_model is inherited.
-    base_model.metadata.create_all(rds_db_engine)
+    base_model.metadata.create_all(db_engine)
 
 
 def drop_all_tables():
     """Drop a database table for model classes."""
-    _exit_if_not_test_environment(rds_db_session())
+    _exit_if_not_test_environment(db_session_maker())
     # Drops table for all model where base_model is inherited.
-    base_model.metadata.drop_all(rds_db_engine)
+    base_model.metadata.drop_all(db_engine)
 
 
 def _exit_if_not_test_environment(session):

@@ -9,7 +9,7 @@ from sqlalchemy.pool import StaticPool
 
 
 # Service information
-SERVICE_NAME = 'ows-app-name'
+SERVICE_NAME = 'ows-timed-release'
 SERVICE_VERSION = '1.0.0'
 
 # Production environment
@@ -41,10 +41,10 @@ RDS_DB_CONNECTION_PROPERTIES = {
 }
 
 # Database config
-if ENVIRONMENT == TEST_ENVIRONMENT:
-    RDS_DB_URL = 'sqlite://'
-    POOL_CLASS = StaticPool
-else:
+RDS_DB_URL = 'sqlite://'
+POOL_CLASS = StaticPool
+
+if ENVIRONMENT != TEST_ENVIRONMENT:
     RDS_DB_URL = (
         'mysql+pymysql://{user}:{password}@{host}/{database}?charset=utf8'
         .format(**RDS_DB_CONNECTION_PROPERTIES))
