@@ -49,3 +49,6 @@ if ENVIRONMENT != TEST_ENVIRONMENT:
         'mysql+pymysql://{user}:{password}@{host}/{database}?charset=utf8'
         .format(**RDS_DB_CONNECTION_PROPERTIES))
 POOL_CLASS = NullPool
+
+# Time zones of product live time
+TIME_ZONES = ('local', 'GMT')
