@@ -3,6 +3,7 @@ ipython==4.1
 pycodestyle==2.0.0
 pydocstyle==1.0.0
 pytest-cov==2.2
+pytest-mock==1.5.0
 pytest==2.8
 flake8==3.0.4
 flake8-builtins==0.2

@@ -1,13 +1,14 @@
 -i https://pypi.theorchard.io/pypi/
 
 blinker==1.4
-Flask==0.10
+Flask==0.11.1
+jsonschema==2.5.1
 newrelic==2.60.0.46
 oto==1.0.1
 owslogger==0.1.2
-owsrequest==0.6.0
+owsrequest==0.8.0
+PyMySQL==0.6.3
+pyraml-parser==0.1.6
+python-env==1.0.0
 raven==5.10
-
-# new library
-PyMySQL==0.7.9
-SQLAlchemy==1.0.14
+SQLAlchemy==1.0
