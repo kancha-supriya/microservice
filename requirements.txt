@@ -12,3 +12,4 @@ pyraml-parser==0.1.6
 python-env==1.0.0
 raven==5.10
 SQLAlchemy==1.0
+flasgger==0.6.4
