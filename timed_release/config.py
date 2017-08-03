@@ -36,7 +36,9 @@ RDS_DB_URL = 'sqlite://'
 POOL_CLASS = StaticPool
 
 if ENVIRONMENT != TEST_ENVIRONMENT:
-    RDS_DB_URL = os.environ.get('RDS_DB_URL', 'sqlite://')
+    # RDS_DB_URL = os.environ.get('RDS_DB_URL', 'sqlite://')
+    RDS_DB_URL = 'mysql+pymysql://bshah:Bfry99pjGfAg@dev-ows-db' \
+        '.co2yckwm6hcp.us-east-1.rds.amazonaws.com/ows_timed_release_schedule'
     POOL_CLASS = QueuePool
     POOL_SIZE = 5
     POOL_RECYCLE_MS = 3600  # Avoids connections going stale

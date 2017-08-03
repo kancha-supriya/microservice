@@ -14,5 +14,6 @@ ERROR_MESSAGE_TIME_OF_DAY_RELEASE = \
 ERROR_MESSAGE_TIME_ZONE = 'Time Zone should be GMT or local'
 ERROR_MESSAGE_PRODUCT_NOT_FOUND = 'Requested product id {} not found.'
 ERROR_MESSAGE_INTEGER_NON_NEGATIVE = '{} must be integer and greater than zero'
+ERROR_MESSAGE_INVALID_BODY_MISSING = 'Invalid request body'
 
 SUCCESS_CODE = 'ok'
