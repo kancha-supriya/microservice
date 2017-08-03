@@ -1,12 +1,12 @@
 branch-defaults:
   master:
-    environment: ENV-ows-timed_release
+    environment: ENV-ows-timed-release
 global:
-  application_name: ows-timed_release
+  application_name: ows-timed-release
   default_ec2_keyname: orchard_admin
   default_platform: null
   default_region: null
   profile: null
   sc: git
 deploy:
-  artifact: ows-timed_release.zip
+  artifact: ows-timed-release.zip
