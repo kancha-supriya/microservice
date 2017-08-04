@@ -7,9 +7,9 @@ from functools import wraps
 import sys
 
 from timed_release import config
-from timed_release.connectors.db_connection import base_model
-from timed_release.connectors.db_connection import db_engine
-from timed_release.connectors.db_connection import db_session_maker
+from timed_release.connectors.sql import base_model
+from timed_release.connectors.sql import db_engine
+from timed_release.connectors.sql import db_session_maker
 
 
 def create_all_tables():
