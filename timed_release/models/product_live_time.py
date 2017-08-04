@@ -6,10 +6,10 @@ from sqlalchemy import Integer
 from sqlalchemy import Time
 
 from timed_release import config
-from timed_release.connectors import db_connection
+from timed_release.connectors import sql
 
 
-class ProductLiveTime(db_connection.base_model):
+class ProductLiveTime(sql.base_model):
     """Table definition for product_live_time table."""
 
     __tablename__ = 'product_live_time'
