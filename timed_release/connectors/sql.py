@@ -1,20 +1,32 @@
-"""MySQL Connector.
+"""DB Connector.
 
 Manages interactions with database schema.
 """
 
 from contextlib import contextmanager
 import functools
+
 from oto import response
 from sqlalchemy import create_engine
 from sqlalchemy import exc
+from sqlalchemy import pool
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+
 from timed_release import config
 from timed_release.connectors import sentry
 
 
-db_engine = create_engine(config.RDS_DB_URL, poolclass=config.POOL_CLASS)
+def get_engine():
+    """Create engine based on config settings."""
+    if config.POOL_CLASS == pool.QueuePool:
+        return create_engine(
+            config.RDS_DB_URL, pool_size=config.POOL_SIZE,
+            max_overflow=config.POOL_MAX_OVERFLOW,
+            pool_recycle=config.POOL_RECYCLE_MS)
+    return create_engine(config.RDS_DB_URL, poolclass=config.POOL_CLASS)
+
+db_engine = get_engine()
 db_session_maker = sessionmaker(bind=db_engine)
 
 base_model = declarative_base()
