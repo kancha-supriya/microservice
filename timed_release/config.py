@@ -4,7 +4,7 @@ import logging
 import os
 
 import newrelic.agent
-from sqlalchemy.pool import NullPool
+from sqlalchemy.pool import QueuePool
 from sqlalchemy.pool import StaticPool
 
 
@@ -31,24 +31,17 @@ LOGGER_NAME = 'ows1'
 # Generic handlers
 HEALTH_CHECK = '/hello/'
 
-# Database credentials
-RDS_DB_CONNECTION_PROPERTIES = {
-    'database': os.environ.get('RDS_MYSQL_DATABASE'),
-    'host': os.environ.get('RDS_MYSQL_HOST'),
-    'password': os.environ.get('RDS_MYSQL_PASSWORD'),
-    'port': os.environ.get('RDS_MYSQL_PORT'),
-    'user': os.environ.get('RDS_MYSQL_USER')
-}
-
 # Database config
 RDS_DB_URL = 'sqlite://'
 POOL_CLASS = StaticPool
 
 if ENVIRONMENT != TEST_ENVIRONMENT:
-    RDS_DB_URL = (
-        'mysql+pymysql://{user}:{password}@{host}/{database}?charset=utf8'
-        .format(**RDS_DB_CONNECTION_PROPERTIES))
-POOL_CLASS = NullPool
+    RDS_DB_URL = os.environ.get('RDS_DB_URL', 'sqlite://')
+    POOL_CLASS = QueuePool
+    POOL_SIZE = 5
+    POOL_RECYCLE_MS = 3600  # Avoids connections going stale
+    POOL_MAX_OVERFLOW = -1
+    POOL_PRE_PING = True
 
 # Time zones of product live time
 TIME_ZONES = ('local', 'GMT')
