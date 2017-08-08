@@ -17,3 +17,7 @@ ERROR_MESSAGE_INTEGER_NON_NEGATIVE = \
 ERROR_MESSAGE_REQUIRED_FIELDS = '{} fields are required'
 
 SUCCESS_CODE = 'ok'
+
+ERROR_CODE_BAD_REQUEST = 'bad_request'
+ERROR_MESSAGE_INVALID_CHARACTER = 'Invalid product ids. They must be numbers. ' \
+    'Alphabets and special characters are not allowed'
