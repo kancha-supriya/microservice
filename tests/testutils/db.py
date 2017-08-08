@@ -3,6 +3,7 @@
 Database level utility class for testing against timed_release model.
 """
 
+import datetime
 from functools import wraps
 import sys
 
@@ -10,6 +11,8 @@ from timed_release import config
 from timed_release.connectors.sql import base_model
 from timed_release.connectors.sql import db_engine
 from timed_release.connectors.sql import db_session_maker
+from timed_release.connectors.sql import db_session
+from timed_release.models import product_live_time
 
 
 def create_all_tables():
@@ -60,3 +63,19 @@ def test_schema(function):
 
         return function_return
     return call_function_within_db_context
+
+
+INSERT_DATA = [
+    {
+        'product_id': '12',
+        'time_of_day_product': datetime.time(20, 30, 00),
+        'time_zone': 'GMT',
+        'store_id': 1
+    }]
+
+
+def insert_product_live_time_data():
+    """Insert data to product_live_time table."""
+    with db_session() as session:
+        session.bulk_insert_mappings(
+            product_live_time.ProductLiveTime, INSERT_DATA)
