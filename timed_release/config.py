@@ -45,3 +45,6 @@ if ENVIRONMENT != TEST_ENVIRONMENT:
 
 # Time zones of product live time
 TIME_ZONES = ('local', 'GMT')
+
+# Time format for time_of_day_product field
+DEFAULT_TIME_FORMAT = '%H:%M:%S'
