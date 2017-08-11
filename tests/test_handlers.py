@@ -11,6 +11,7 @@ import pytest
 from timed_release import handlers
 from timed_release.api import app
 from timed_release.constants import error
+from timed_release.constants import success
 from timed_release.logic import product_live_time
 
 
@@ -184,3 +185,34 @@ def test_create_product_live_time_detail_invalid_request_body(
         result = client.post('/product', data=request_body)
 
         assert result.status_code == http_status.BAD_REQUEST
+
+
+def test_delete_product_live_details_success(monkeypatch):
+    """Test delete product live time with success."""
+    monkeypatch.setattr(
+        product_live_time, 'delete_product_live_time_details',
+        MagicMock(return_value=response.Response(
+            message=success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE)))
+
+    result = app.test_client().delete('/product/122')
+    message = result.data.decode()
+
+    assert result.status_code == http_status.OK
+    assert message == success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE
+
+
+def test_delete_product_live_details_for_not_found(monkeypatch):
+    """Test for delete product live time with product_id not found."""
+    product_id = 1
+    expected_response = error.ERROR_MESSAGE_PRODUCT_NOT_FOUND.format(
+        product_id)
+
+    monkeypatch.setattr(
+        product_live_time, 'delete_product_live_time_details',
+        MagicMock(return_value=response.create_not_found_response(
+            message=expected_response)))
+
+    request_url = '/product/{product_id}'.format(product_id=product_id)
+    result = app.test_client().delete(request_url)
+
+    assert result.status_code == http_status.NOT_FOUND

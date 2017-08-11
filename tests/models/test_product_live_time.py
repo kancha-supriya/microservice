@@ -10,6 +10,7 @@ import pytest
 from sqlalchemy.exc import SQLAlchemyError
 
 from tests.testutils import db
+from timed_release.constants import success
 from timed_release.models import product_live_time
 from timed_release.validation import validators
 
@@ -133,3 +134,44 @@ def test_get_product_live_time_details_success_not_found():
     """Test that an existing product id is not found."""
     response = product_live_time.get_product_live_time_details('12')
     assert response.status == http_status.NOT_FOUND
+
+
+@db.test_schema
+def test_delete_product_live_time_details_success():
+    """Test for delete time release details with success."""
+    product_id = 12
+
+    db.insert_product_live_time_data()
+    delete_response = product_live_time.delete_product_live_time_details(
+        product_id)
+
+    assert delete_response.status == http_status.OK
+    assert delete_response.message == \
+        success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE
+
+
+@db.test_schema
+def test_delete_product_live_time_details_not_found():
+    """Test for delete time release details with product id not found."""
+    product_id = 20801682080168
+
+    delete_response = product_live_time.delete_product_live_time_details(
+        product_id)
+
+    assert delete_response.status == http_status.NOT_FOUND
+
+
+@db.test_schema
+def test_delete_product_live_time_details_internal_error(mocker):
+    """Test delete_product_live_time_details with SQLAlchemyError."""
+    product_id = 12
+
+    db.insert_product_live_time_data()
+    mocker.patch.object(
+        product_live_time, 'delete_product_live_time_details',
+        return_value=response.create_fatal_response('fatal_error'))
+
+    delete_response = product_live_time.delete_product_live_time_details(
+        product_id)
+
+    assert delete_response.status == http_status.INTERNAL_ERROR

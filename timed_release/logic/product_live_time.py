@@ -42,3 +42,21 @@ def create_product_live_time_detail(timed_release_data):
 
     return product_live_time.create_product_live_time_details(
         product_id, time_of_day_product, time_zone, store_id)
+
+
+def delete_product_live_time_details(product_id):
+    """Delete product live time details by product id.
+
+    Args:
+        product_id (str): Product id to delete product live time details.
+
+    Returns:
+        response.Response: Response containing delete success message or error
+        response message.
+    """
+    if not validators.is_digit_and_non_zero(product_id):
+        return response.create_error_response(
+            code=error.ERROR_CODE_BAD_REQUEST,
+            message=error.ERROR_MESSAGE_INTEGER_NON_NEGATIVE.format(
+                product_id))
+    return product_live_time.delete_product_live_time_details(product_id)

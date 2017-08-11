@@ -9,6 +9,7 @@ from sqlalchemy import Time
 from timed_release import config
 from timed_release.connectors import sql
 from timed_release.constants import error
+from timed_release.constants import success
 from timed_release.validation import validators
 
 
@@ -87,3 +88,26 @@ def get_product_live_time_details(product_id):
                 error.ERROR_MESSAGE_PRODUCT_NOT_FOUND.format(product_id))
 
         return response.Response(message=product_live_time.to_dict())
+
+
+@sql.wrap_db_errors
+def delete_product_live_time_details(product_id):
+    """Delete product live time details by product id.
+
+    Args:
+        product_id (int): Product id to delete product live time details.
+
+    Returns:
+        response.Response: Response containing delete success message or error
+        response message.
+    """
+    with sql.db_session() as session:
+        affected_row_count = session.query(ProductLiveTime).filter(
+            ProductLiveTime.product_id == product_id).delete()
+
+        if not affected_row_count:
+            return response.create_not_found_response(
+                error.ERROR_MESSAGE_PRODUCT_NOT_FOUND.format(product_id))
+
+        return response.Response(
+            message=success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE)
