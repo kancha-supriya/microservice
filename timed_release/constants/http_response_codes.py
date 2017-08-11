@@ -1,6 +1,0 @@
-"""Generic http response header messages."""
-
-SUCCESS_STATUS = 200
-INTERNAL_SERVER_ERROR = 500
-NOT_FOUND_ERROR = 404
-BAD_REQUEST = 400

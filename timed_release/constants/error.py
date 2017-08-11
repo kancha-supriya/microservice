@@ -12,8 +12,7 @@ ERROR_MESSAGE_FORBIDDEN_USER = 'User is forbidden'
 ERROR_MESSAGE_TIME_OF_DAY_RELEASE = \
     'Time of day Product should be in valid HH:MM:SS format'
 ERROR_MESSAGE_TIME_ZONE = 'Time Zone should be GMT or local'
-ERROR_MESSAGE_INTEGER_NON_NEGATIVE = \
-    '{} must be integer and can not be negative'
-ERROR_MESSAGE_REQUIRED_FIELDS = '{} fields are required'
+ERROR_MESSAGE_PRODUCT_NOT_FOUND = 'Requested product id {} not found.'
+ERROR_MESSAGE_INTEGER_NON_NEGATIVE = '{} must be integer and greater than zero'
 
 SUCCESS_CODE = 'ok'
