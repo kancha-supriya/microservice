@@ -7,8 +7,9 @@ from oto import response
 from timed_release.connectors import sentry
 
 
-@patch('timed_release.connectors.sentry.raven.Client',
-       return_value='sentry_client')
+@patch(
+    'timed_release.connectors.sentry.raven.Client',
+    return_value='sentry_client')
 @patch('timed_release.connectors.sentry.config')
 def test_sentry_enabled(mock_config, mock_raven_client):
     """Test sentry.sentry_client is setup when config.SENTRY is set."""

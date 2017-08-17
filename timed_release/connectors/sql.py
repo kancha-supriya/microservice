@@ -35,7 +35,6 @@ def get_engine():
     return create_engine(config.RDS_DB_URL, poolclass=config.POOL_CLASS)
 
 db_engine = get_engine()
-
 db_session_maker = sessionmaker(bind=db_engine)
 
 base_model = declarative_base()

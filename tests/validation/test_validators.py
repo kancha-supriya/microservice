@@ -93,3 +93,16 @@ def test_validate_timed_release_dataset(
         data, mandatory_fields_list)
 
     assert result == expected_response
+
+
+@pytest.mark.parametrize(
+    'description, value, expected_response', [
+        ('testing with valid integer value', '1', True),
+        ('testing with invalid integer value', '-1', False),
+        ('testing with characters', 'abc', False),
+        ('testing with special character', '*', False),
+        ('testing with 0', '0', False)])
+def test_is_digit_and_non_zero(description, value, expected_response):
+    """Test for is_digit_and_non_zero."""
+    result = validators.is_digit_and_non_zero(value)
+    assert result == expected_response
