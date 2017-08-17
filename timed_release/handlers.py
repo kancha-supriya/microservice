@@ -23,6 +23,7 @@ from oto.adaptors.flask import flaskify
 from timed_release import config
 from timed_release.api import app
 from timed_release.logic import hello
+from timed_release.logic import product_live_time
 
 
 @app.route('/', methods=['GET'])
@@ -62,3 +63,18 @@ def exception_handler(error):
         'and was unable to complete your request.')
     g.log.exception(error)
     return flaskify(response.create_fatal_response(message))
+
+
+@app.route('/product/<product_id>', methods=['GET'])
+def get_product_live_detail_by_id(product_id):
+    """Get product live time details for given product id.
+
+    Args:
+        product_id (str): Product id to fetch Spotify product live time.
+
+    Returns:
+        flask.response: Response contains dict describing product live time
+        details, or validation message.
+    """
+    return flaskify(product_live_time.get_product_live_time_details(
+        product_id))
