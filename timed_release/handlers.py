@@ -19,9 +19,11 @@ from flask import request
 
 from oto import response
 from oto.adaptors.flask import flaskify
+from werkzeug.exceptions import BadRequest
 
 from timed_release import config
 from timed_release.api import app
+from timed_release.constants import error
 from timed_release.logic import hello
 from timed_release.logic import product_live_time
 
@@ -78,3 +80,28 @@ def get_product_live_detail_by_id(product_id):
     """
     return flaskify(product_live_time.get_product_live_time_details(
         product_id))
+
+
+@app.route('/product', methods=['POST'])
+def create_product_live_time_detail():
+    """Save info about product live time detail.
+
+    Returns:
+        flask.Response: Response contains dict describing product live time
+        details, or validation message.
+    """
+    valid_request_json = True
+    try:
+        timed_release_data = request.get_json()
+        if not isinstance(timed_release_data, dict):
+            valid_request_json = False
+    except BadRequest:
+        valid_request_json = False
+
+    if not valid_request_json:
+        return flaskify(response.create_error_response(
+            code=error.ERROR_CODE_BAD_REQUEST,
+            message=error.ERROR_MESSAGE_INVALID_REQUEST_BODY))
+
+    return flaskify(product_live_time.create_product_live_time_detail(
+        timed_release_data))
