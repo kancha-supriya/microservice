@@ -46,7 +46,7 @@ def mandatory_fields(data, mandatory_fields_list):
     """
     # checking fields in mandatory_fields_list is present in data if not
     # then return the dict of those fields.
-    return [field for field in mandatory_fields_list if field not in data]
+    return [field for field in mandatory_fields_list if not data.get(field)]
 
 
 def validate_time_zone(time_zone):
