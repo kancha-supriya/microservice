@@ -10,6 +10,7 @@ import pytest
 from sqlalchemy.exc import SQLAlchemyError
 
 from tests.testutils import db
+from timed_release.constants import success
 from timed_release.models import product_live_time
 from timed_release.validation import validators
 
@@ -133,3 +134,48 @@ def test_get_product_live_time_details_success_not_found():
     """Test that an existing product id is not found."""
     response = product_live_time.get_product_live_time_details('12')
     assert response.status == http_status.NOT_FOUND
+
+
+@db.test_schema
+def test_update_product_live_time_details_success():
+    """Test to update product live time by product id."""
+    db.insert_product_live_time_data()
+    update_data = {
+        'time_of_day_product': datetime.time(10, 20, 30),
+        'time_zone': 'GMT',
+        'store_id': 1
+    }
+    response = product_live_time.update_product_live_time_details(
+        12, update_data)
+    assert response.message == success.UPDATE_SUCCESS_MESSAGE.format(12)
+
+
+@db.test_schema
+def test_update_product_live_time_details_not_found():
+    """Test to update product live time where product id not found."""
+    update_data = {
+        'time_of_day_product': datetime.time(10, 20, 30),
+        'time_zone': 'GMT',
+        'store_id': 1
+    }
+    response = product_live_time.update_product_live_time_details(
+        11, update_data)
+    assert response.status == http_status.NOT_FOUND
+
+
+@db.test_schema
+@patch(
+    'timed_release.connectors.sql.db_session', side_effect=SQLAlchemyError())
+def test_update_product_live_time_details_internal_error(monkeypatch):
+    """Test to update product live time with SQLAlchemyError."""
+    update_data = {
+        'time_of_day_product': datetime.time(10, 20, 30),
+        'time_zone': 'GMT',
+        'store_id': 1
+    }
+
+    db.insert_product_live_time_data()
+    response = product_live_time.update_product_live_time_details(
+        11, update_data)
+
+    assert response.status == http_status.INTERNAL_ERROR
