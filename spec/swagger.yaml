@@ -22,11 +22,7 @@ paths:
         '200':
           description: 200 OK
           schema:
-            type: object
-            example:
-              {
-                "status": "ok"
-              }
+            $ref: "#/definitions/hello"
   /product/{product_id}:
     get:
       parameters:
@@ -38,89 +34,83 @@ paths:
         '200':
           description: 200 OK
           schema:
-            type: object
-            properties:
-              product:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    product_id:
-                      type: integer
-                    time_of_day_product:
-                      type: string
-                    time_zone:
-                      type: string
-                    store_id:
-                      type: integer
-                  required:
-                    - product_id
-                    - time_of_day_product
-                    - time_zone
-            required:
-              - product
-            example:
-              {
-                "product": {
-                  "product_id": 2080168,
-                  "time_of_day_product": "20:15:00",
-                  "time_zone": "local",
-                  "store_id": 286
-                }
-              }
+            $ref: '#/definitions/200GetResponse'
         '404':
           description: 404 Product not found
           schema:
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-            required:
-              - message
-              - code
-            type: object
-            example:
-              {
-                "message": "Requested product id <product_id> not found.",
-                "code": "not_found_error"
-              }
+            $ref: '#/definitions/404Response'
         '400':
           description: 400 Bad request
           schema:
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-            required:
-              - message
-              - code
-            type: object
-            example:
-              {
-                "message": "<product_id> must be integer and greater than zero",
-                "code": "bad_request"
-              }
+            $ref: '#/definitions/400GetResponse'
         '500':
           description: 500 Internal server error
           schema:
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-            required:
-              - message
-              - code
-            type: object
-            example:
-              {
-                "message": "Could not connect to MySQL",
-                "code": "server_error"
-              }
+            $ref: '#/definitions/500Response'
       description: Get product live time detail for given product id.
       summary: Returns product live time detail.
+      tags:
+        - Timed Release CRUD Operation
+    put:
+      parameters:
+        - in: header
+          name: Correlation-Id
+          required: false
+          type: string
+        - in: path
+          name: product_id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/putRequestBody'
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/200PutResponse'
+        '404':
+          description: 404 Product not found
+          schema:
+            $ref: '#/definitions/404Response'
+        '400':
+          description: 400 Bad request
+          schema:
+            $ref: '#/definitions/400PutResponse'
+        '500':
+          description: 500 Internal server error
+          schema:
+            $ref: '#/definitions/500Response'
+      description: Update product live time detail for given product id.
+      summary: Returns success message on update.
+      tags:
+        - Timed Release CRUD Operation
+    delete:
+      parameters:
+        - in: path
+          name: product_id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/200DeleteResponse'
+        '404':
+          description: 404 Product not found
+          schema:
+            $ref: '#/definitions/404Response'
+        '400':
+          description: 400 Bad request
+          schema:
+            $ref: '#/definitions/400DeleteResponse'
+        '500':
+          description: 500 Internal server error
+          schema:
+            $ref: '#/definitions/500Response'
+      description: Delete product live time detail for given product id.
+      summary: Returns success message on delete.
       tags:
         - Timed Release CRUD Operation
   /product:
@@ -133,97 +123,248 @@ paths:
         - in: body
           name: body
           schema:
-            example:
-              {
-                "product_id": 2080168,
-                "time_of_day_product": "20:15:00",
-                "time_zone": "local",
-                "store_id": 287
-              }
+            $ref: '#/definitions/postRequestBody'
       responses:
         '200':
           description: 200 OK
           schema:
-            type: object
-            properties:
-              product:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    product_id:
-                      type: integer
-                    time_of_day_product:
-                      type: string
-                    time_zone:
-                      type: string
-                    store_id:
-                      type: integer
-                  required:
-                    - product_id
-                    - time_of_day_product
-                    - time_zone
-            required:
-              - product
-            example:
-              {
-                "product": {
-                  "product_id": 2080168,
-                  "time_of_day_product": "20:15:00",
-                  "time_zone": "local",
-                  "store_id": 286
-                }
-              }
+            $ref: '#/definitions/200PostResponse'
         '400':
           description: 400 Bad request
           schema:
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-            required:
-              - message
-              - code
-            type: object
-            example:
-              {
-                "message": [
-                  {
-                    "non integer or negative fields list": [
-                      "product_id",
-                      "store_id"
-                    ]
-                  },
-                  {
-                    "invalid time zone": "Time of day Product should be in valid HH:MM:SS format"
-                  },
-                  {
-                    "invalid time format": "Time Zone should be GMT or local"
-                  }
-                ],
-                "code": "bad_request"
-              }
+            $ref: '#/definitions/400PostResponse'
         '500':
           description: 500 Internal server error
           schema:
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-            required:
-              - message
-              - code
-            type: object
-            example:
-              {
-                "message": "Could not connect to MySQL",
-                "code": "server_error"
-              }
+            $ref: '#/definitions/500Response'
       description: Save info about product live time detail.
       summary: Create product live time detail.
       tags:
         - Timed Release CRUD Operation
-definitions: {}
+definitions:
+  500Response:
+    description: 500 Internal server error
+    type: object
+    properties:
+      code:
+        type: string
+        example: server_error
+      message:
+        type: string
+        example: Could not connect to MySQL.
+    required:
+      - message
+      - code
+  404Response:
+    description: 404 Product not found
+    type: object
+    properties:
+      code:
+        type: string
+        example: not_found_error
+      message:
+        type: string
+        example: Requested product id <product_id> not found.
+    required:
+      - message
+      - code
+  200GetResponse:
+    description: 200 OK
+    type: object
+    properties:
+      product_id:
+        type: integer
+      time_of_day_product:
+        type: string
+      time_zone:
+        type: string
+      store_id:
+        type: integer
+    required:
+      - product_id
+      - time_of_day_product
+      - time_zone
+    example:
+      {
+        "product_id": 2080168,
+        "time_of_day_product": "20:15:00",
+        "time_zone": "local",
+        "store_id": 286
+      }
+  200PutResponse:
+    description: 200 OK
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    example:
+      Product live time successfully updated for product id <product_id>
+  200DeleteResponse:
+    description: 200 OK
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    example:
+      Successfully deleted the Timed Release Data.
+  200PostResponse:
+    description: 200 OK
+    type: object
+    properties:
+      product:
+        type: array
+        items:
+          type: object
+          properties:
+            product_id:
+              type: integer
+            time_of_day_product:
+              type: string
+            time_zone:
+              type: string
+            store_id:
+              type: integer
+          required:
+            - product_id
+            - time_of_day_product
+            - time_zone
+    required:
+      - product
+    example:
+      {
+        "product": {
+          "product_id": 2080168,
+          "time_of_day_product": "20:15:00",
+          "time_zone": "local",
+          "store_id": 286
+        }
+      }
+  400GetResponse:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+        example: "bad_request"
+      message:
+        type: string
+        example: "<product_id> must be integer and greater than zero"
+    required:
+      - message
+      - code
+  400PutResponse:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      {
+        "message": [
+          {
+            "invalid time zone": "Time of day Product should be in valid HH:MM:SS format"
+          },
+          {
+            "invalid time format": "Time Zone should be GMT or local"
+          },
+          "<product_id> must be integer and greater than zero",
+        ],
+        "code": "bad_request"
+      }
+  400DeleteResponse:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      {
+        "message": "<product_id> must be integer and greater than zero",
+        "code": "bad_request"
+      }
+  400PostResponse:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      {
+        "message": [
+          {
+            "non integer or negative fields list": [
+              "product_id",
+              "store_id"
+            ]
+          },
+          {
+            "invalid time zone": "Time of day Product should be in valid HH:MM:SS format"
+          },
+          {
+            "invalid time format": "Time Zone should be GMT or local"
+          }
+        ],
+        "code": "bad_request"
+      }
+  hello:
+    type: object
+    properties:
+      status:
+        type: string
+    example:
+      {
+        "status": "ok"
+      }
+  putRequestBody:
+    type: object
+    properties:
+      time_of_day_product:
+        type: string
+      time_zone:
+        type: string
+      store_id:
+        type: integer
+    example:
+      {
+        "time_of_day_product": "02:22:23",
+        "time_zone": "GMT",
+        "store_id": 287
+      }
+  postRequestBody:
+    type: object
+    properties:
+      product_id:
+        type: integer
+      time_of_day_product:
+        type: string
+      time_zone:
+        type: string
+      store_id:
+        type: integer
+    example:
+      {
+        "product_id": 2080168,
+        "time_of_day_product": "20:15:00",
+        "time_zone": "local",
+        "store_id": 287
+      }
 securityDefinitions: {}
