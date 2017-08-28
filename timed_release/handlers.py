@@ -28,6 +28,15 @@ from timed_release.logic import hello
 from timed_release.logic import product_live_time
 
 
+@app.before_request
+def before_request():
+    """User not allowed to access API endpoints."""
+    if request.endpoint in ('flasgger.apidocs', 'flasgger.apispec_1')\
+            and config.ENVIRONMENT == 'prod':
+        return flaskify(response.Response('Access Denied :'
+                                          ' This is only for developers'))
+
+
 @app.route('/', methods=['GET'])
 def hello_world():
     """Hello World with an optional GET param "name"."""
