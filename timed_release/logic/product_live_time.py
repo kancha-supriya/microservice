@@ -42,28 +42,3 @@ def create_product_live_time_detail(timed_release_data):
 
     return product_live_time.create_product_live_time_details(
         product_id, time_of_day_product, time_zone, store_id)
-
-
-def update_product_live_time(product_id, data):
-    """Update product live time details.
-
-    Args:
-        product_id (str): Product id to update Spotify product live time.
-        data (dict): Product live time data to be updated.
-
-    Returns:
-        response.Response: Response message upon successful update.
-         or error Response otherwise.
-    """
-    if not validators.is_digit_and_non_zero(product_id):
-        return response.create_error_response(
-            code=error.ERROR_CODE_BAD_REQUEST,
-            message=error.ERROR_MESSAGE_INTEGER_NON_NEGATIVE.format(
-                product_id))
-
-    validation_error = validators.validate_timed_release_dataset(
-        data, data.keys())
-    if validation_error:
-        return response.create_error_response(
-            code=error.ERROR_CODE_BAD_REQUEST, message=validation_error)
-    return product_live_time.update_product_live_time_details(product_id, data)
