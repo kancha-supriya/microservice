@@ -137,6 +137,47 @@ def test_get_product_live_time_details_success_not_found():
 
 
 @db.test_schema
+def test_delete_product_live_time_details_success():
+    """Test for delete time release details with success."""
+    product_id = 12
+
+    db.insert_product_live_time_data()
+    delete_response = product_live_time.delete_product_live_time_details(
+        product_id)
+
+    assert delete_response.status == http_status.OK
+    assert delete_response.message == \
+        success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE
+
+
+@db.test_schema
+def test_delete_product_live_time_details_not_found():
+    """Test for delete time release details with product id not found."""
+    product_id = 20801682080168
+
+    delete_response = product_live_time.delete_product_live_time_details(
+        product_id)
+
+    assert delete_response.status == http_status.NOT_FOUND
+
+
+@db.test_schema
+def test_delete_product_live_time_details_internal_error(mocker):
+    """Test delete_product_live_time_details with SQLAlchemyError."""
+    product_id = 12
+
+    db.insert_product_live_time_data()
+    mocker.patch.object(
+        product_live_time, 'delete_product_live_time_details',
+        return_value=response.create_fatal_response('fatal_error'))
+
+    delete_response = product_live_time.delete_product_live_time_details(
+        product_id)
+
+    assert delete_response.status == http_status.INTERNAL_ERROR
+
+
+@db.test_schema
 def test_update_product_live_time_details_success():
     """Test to update product live time by product id."""
     db.insert_product_live_time_data()
