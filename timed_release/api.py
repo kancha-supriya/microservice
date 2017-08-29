@@ -12,6 +12,16 @@ from timed_release import config
 
 
 app = Flask(config.SERVICE_NAME)
+
+if config.ENVIRONMENT == config.DEV_ENVIRONMENT:
+    from flasgger import Swagger
+    app.config['SWAGGER'] = {
+        'title': 'Timed Release API',
+        'uiversion': 2
+    }
+    Swagger(app, template_file=config.SWAGGER_FILE_PATH)
+
+
 flask_logger.setup(
     app, config.LOGGER_DSN, config.ENVIRONMENT, config.LOGGER_NAME,
     config.LOGGER_LEVEL, config.SERVICE_NAME, config.SERVICE_VERSION,
