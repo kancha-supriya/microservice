@@ -10,3 +10,4 @@ flake8-builtins==0.2
 flake8-docstrings==1.0.2
 flake8-import-order==0.9
 flake8-quotes==0.8.1
+flasgger==0.6.4

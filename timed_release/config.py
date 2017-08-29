@@ -48,3 +48,6 @@ TIME_ZONES = ('local', 'GMT')
 
 # Time format for time_of_day_product field
 DEFAULT_TIME_FORMAT = '%H:%M:%S'
+
+# Swagger file path
+SWAGGER_FILE_PATH = 'spec/swagger.yaml'
