@@ -8,6 +8,7 @@ import pytest
 
 from tests.testutils import db
 from timed_release.constants import error
+from timed_release.constants import success
 from timed_release.logic import product_live_time
 from timed_release.models import product_live_time as product_live_time_model
 
@@ -101,6 +102,33 @@ def test_create_product_live_time_detail_mandatory_fields(
         request_body)
 
     assert result.status == http_status.BAD_REQUEST
+
+
+def test_delete_product_live_time_details_success(monkeypatch):
+    """Test for delete product live time with success."""
+    monkeypatch.setattr(
+        product_live_time_model, 'delete_product_live_time_details',
+        MagicMock(return_value=response.Response(
+            message=success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE)))
+
+    result = product_live_time.delete_product_live_time_details('12')
+
+    assert result.status == http_status.OK
+    assert result.message == success.DELETE_SUCCESS_MESSAGE_TIMED_RELEASE
+
+
+@pytest.mark.parametrize(
+    'description, product_id, expected_status', [
+        ('Product id not found', '11', 404),
+        ('Product id must be greater than zero', '0', 400),
+        ('Product id must be greater than zero', '-1', 400),
+        ('Product id must be integer', 'abc', 400)])
+@db.test_schema
+def test_delete_product_live_time_details_failure(
+        description, product_id, expected_status):
+    """Test for delete product live time with failure."""
+    result = product_live_time.delete_product_live_time_details(product_id)
+    assert result.status == expected_status
 
 
 @pytest.mark.parametrize(

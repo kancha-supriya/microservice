@@ -105,3 +105,17 @@ def create_product_live_time_detail():
 
     return flaskify(product_live_time.create_product_live_time_detail(
         timed_release_data))
+
+
+@app.route('/product/<product_id>', methods=['DELETE'])
+def delete_product_live_details(product_id):
+    """Delete product live time details by product id.
+
+    Args:
+        product_id (str): Product id to delete product live time details.
+    Returns:
+        flask.Response: Response containing delete success message or error
+        response message.
+    """
+    return flaskify(product_live_time.delete_product_live_time_details(
+        product_id))
